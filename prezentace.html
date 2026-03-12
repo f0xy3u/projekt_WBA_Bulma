@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prezentace - Bulma CSS Framework</title>
+    
+    <!-- ========================================
+         BULMA CSS FRAMEWORK - CDN LINK
+         Toto je hlavní způsob, jak načíst Bulmu
+    ======================================== -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+    
+    <!-- ========================================
+         FONT AWESOME - pro ikony
+    ======================================== -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- ========================================
+         VLASTNÍ STYLY PRO PREZENTACI
+         Vysoký kontrast pro projektor
+    ======================================== -->
+    <style>
+        /* Slide systém */
+        .slide {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 2rem;
+        }
+        
+        /* Vysoký kontrast pro projektor */
+        .slide-dark {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #ffffff;
+        }
+        
+        .slide-light {
+            background: #ffffff;
+            color: #1a1a2e;
+        }
+        
+        .slide-accent {
+            background: linear-gradient(135deg, #00d1b2 0%, #3298dc 100%);
+            color: #ffffff;
+        }
+        
+        /* Velký text pro čitelnost */
+        .title-huge {
+            font-size: 4rem !important;
+            font-weight: 800 !important;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle-large {
+            font-size: 2rem !important;
+            opacity: 0.95;
+        }
+        
+        .text-large {
+            font-size: 1.5rem !important;
+            line-height: 1.8 !important;
+        }
+        
+        /* Kód bloky s vysokým kontrastem */
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1.5rem;
+            border-radius: 10px;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 1.2rem;
+            border-left: 5px solid #00d1b2;
+            overflow-x: auto;
+        }
+        
+        .code-inline {
+            background: #363636;
+            color: #00d1b2;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 1.1rem;
+        }
+        
+        /* Seznam s velkými body */
+        .list-large li {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            padding-left: 0.5rem;
+        }
+        
+        .list-large li::marker {
+            color: #00d1b2;
+            font-size: 1.5rem;
+        }
+        
+        /* Slide čísla */
+        .slide-number {
+            position: absolute;
+            bottom: 2rem;
+            right: 2rem;
+            font-size: 1.2rem;
+            opacity: 0.7;
+        }
+        
+        /* Karty pro příklady */
+        .example-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        
+        /* Tabulka s vysokým kontrastem */
+        .table-contrast {
+            font-size: 1.2rem;
+        }
+        
+        .table-contrast th {
+            background: #00d1b2 !important;
+            color: white !important;
+            font-weight: 700;
+        }
+        
+        .table-contrast td {
+            background: #2d2d2d !important;
+            color: white !important;
+            border-color: #444 !important;
+        }
+        
+        /* Navigace mezi slidy */
+        .slide-nav {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        /* Skrytá navigace */
+        .slide-nav.is-hidden {
+            opacity: 0;
+            transform: translateX(-50%) translateY(100px);
+            pointer-events: none;
+        }
+        
+        /* Nápověda pro klávesnici */
+        .keyboard-hint {
+            position: fixed;
+            bottom: 6rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            z-index: 999;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        /* Skrytá nápověda */
+        .keyboard-hint.is-hidden {
+            opacity: 0;
+            transform: translateX(-50%) translateY(100px);
+            pointer-events: none;
+        }
+        
+        /* Tlačítko pro zobrazení navigace (když je skrytá) */
+        .show-nav-btn {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            z-index: 1001;
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+        }
+        
+        .show-nav-btn:hover {
+            opacity: 1;
+        }
+        
+        .show-nav-btn.is-hidden {
+            display: none;
+        }
+        
+        /* Plynulý scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Zvýraznění pro důležité body */
+        .highlight {
+            background: linear-gradient(120deg, #00d1b2 0%, #00d1b2 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 40%;
+            background-position: 0 90%;
+        }
+        
+        /* Pro tmavé pozadí - bílý text */
+        .has-text-white-strong {
+            color: #ffffff !important;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========================================
+         SLIDE 1: ÚVODNÍ STRÁNKA
+    ======================================== -->
+    <section class="slide slide-dark" id="slide-1">
+        <div class="container has-text-centered">
+            <figure class="image is-128x128 is-inline-block mb-5">
+                <img src="https://bulma.io/assets/images/bulma-logo-white.png" alt="Bulma Logo">
+            </figure>
+            <h1 class="title title-huge has-text-white-strong">
+                Bulma CSS Framework
+            </h1>
+            <p class="subtitle subtitle-large has-text-grey-lighter mt-4">
+                Moderní CSS framework založený na Flexboxu
+            </p>
+            <div class="tags is-centered mt-6">
+                <span class="tag is-primary is-large">CSS</span>
+                <span class="tag is-info is-large">Flexbox</span>
+                <span class="tag is-success is-large">Responsive</span>
+                <span class="tag is-warning is-large">Komponenty</span>
+            </div>
+            <p class="mt-6 has-text-grey-light">
+                <i class="fas fa-users"></i> Prezentace - WBA
+            </p>
+            <span class="slide-number has-text-grey-light">1 / 8</span>
+        </div>
+    </section>
+
+    <!-- ========================================
+         SLIDE 2: JAKÝ PŘÍSTUP POUŽÍVÁ BULMA
+    ======================================== -->
+    <section class="slide slide-light" id="slide-2">
+        <div class="container">
+            <h2 class="title is-1 has-text-dark mb-6">
+                <i class="fas fa-cogs has-text-primary"></i> Jaký přístup používá Bulma?
+            </h2>
+            
+            <div class="columns is-multiline">
+                <!-- Hlavní přístup -->
+                <div class="column is-12">
+                    <div class="notification is-primary is-light">
+                        <p class="text-large">
+                            <strong>Bulma je komponentový CSS framework</strong> s prvky utility přístupu.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Komponentový přístup -->
+                <div class="column is-6">
+                    <div class="box" style="border-left: 5px solid #00d1b2;">
+                        <h3 class="title is-3 has-text-primary">
+                            <i class="fas fa-puzzle-piece"></i> Komponentový
+                        </h3>
+                        <ul class="list-large">
+                            <li>Předpřipravené komponenty (Button, Card, Navbar...)</li>
+                            <li>Konzistentní vzhled</li>
+                            <li>Sémantické názvy tříd</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Utility přístup -->
+                <div class="column is-6">
+                    <div class="box" style="border-left: 5px solid #3298dc;">
+                        <h3 class="title is-3 has-text-info">
+                            <i class="fas fa-tools"></i> Utility helpery
+                        </h3>
+                        <ul class="list-large">
+                            <li>Třídy pro spacing: <code class="code-inline">m-4</code>, <code class="code-inline">p-2</code></li>
+                            <li>Barvy: <code class="code-inline">has-text-primary</code></li>
+                            <li>Flexbox: <code class="code-inline">is-flex</code></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <span class="slide-number has-text-dark">2 / 8</span>
+        </div>
+    </section>
+
+    <!-- ========================================
+         SLIDE 3: JAK NAČÍST BULMU
+    ======================================== -->
+    <section class="slide slide-dark" id="slide-3">
+        <div class="container">
+            <h2 class="title is-1 has-text-white-strong mb-6">
+                <i class="fas fa-download has-text-primary"></i> Jak načíst Bulmu do projektu
+            </h2>
+            
+            <div class="columns">
+                <!-- CDN způsob -->
+                <div class="column is-6">
+                    <div class="example-card">
+                        <h3 class="title is-3 has-text-primary">
+                            <i class="fas fa-globe"></i> 1. CDN (nejjednodušší)
+                        </h3>
+                        <pre class="code-block">&lt;link rel="stylesheet" 
+  href="https://cdn.jsdelivr.net
+  /npm/bulma@1.0.2/css/bulma.min.css"&gt;</pre>
+                        <p class="has-text-grey-light mt-3">
+                            <i class="fas fa-check has-text-success"></i> Stačí jeden řádek v &lt;head&gt;
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- NPM způsob -->
+                <div class="column is-6">
+                    <div class="example-card">
+                        <h3 class="title is-3 has-text-info">
+                            <i class="fab fa-npm"></i> 2. NPM instalace
+                        </h3>
+                        <pre class="code-block">npm install bulma
+
+// V SASS/CSS souboru:
+@import "bulma/css/bulma.css";</pre>
+                        <p class="has-text-grey-light mt-3">
+                            <i class="fas fa-cog"></i> Pro customizaci a build systémy
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="notification is-warning is-light mt-5">
+                <p class="text-large has-text-dark">
+                    <i class="fas fa-lightbulb"></i> <strong>Bulma je čistě CSS</strong> - nepotřebuje JavaScript!
+                </p>
+            </div>
+            <span class="slide-number has-text-grey-light">3 / 8</span>
+        </div>
+    </section>
+
+    <!-- ========================================
+         SLIDE 4: UKÁZKY TŘÍD A KOMPONENT (1/2)
+    ======================================== -->
+    <section class="slide slide-light" id="slide-4">
+        <div class="container">
+            <h2 class="title is-1 has-text-dark mb-6">
+                <i class="fas fa-code has-text-primary"></i> Ukázky tříd a komponent
+            </h2>
+            
+            <div class="columns">
+                <!-- TLAČÍTKA -->
+                <div class="column is-4">
+                    <div class="box">
+                        <h3 class="title is-4 has-text-dark">1. Tlačítka</h3>
+                        <pre class="code-block" style="font-size: 1rem;">&lt;button class="button is-primary"&gt;
+  Primární
+&lt;/button&gt;
+
+&lt;button class="button is-danger is-large"&gt;
+  Velké červené
+&lt;/button&gt;</pre>
+                        <div class="mt-4">
+                            <p class="has-text-grey mb-2">Výsledek:</p>
+                            <button class="button is-primary">Primární</button>
+                            <button class="button is-danger is-large">Velké červené</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- COLUMNS -->
+                <div class="column is-4">
+                    <div class="box">
+                        <h3 class="title is-4 has-text-dark">2. Grid systém</h3>
+                        <pre class="code-block" style="font-size: 1rem;">&lt;div class="columns"&gt;
+  &lt;div class="column is-4"&gt;
+    33%
+  &lt;/div&gt;
+  &lt;div class="column is-8"&gt;
+    66%
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+                        <div class="mt-4">
+                            <p class="has-text-grey mb-2">Výsledek:</p>
+                            <div class="columns is-mobile">
+                                <div class="column is-4">
+                                    <div class="notification is-primary has-text-centered p-2">33%</div>
+                                </div>
+                                <div class="column is-8">
+                                    <div class="notification is-info has-text-centered p-2">66%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- CARD -->
+                <div class="column is-4">
+                    <div class="box">
+                        <h3 class="title is-4 has-text-dark">3. Karty</h3>
+                        <pre class="code-block" style="font-size: 0.9rem;">&lt;div class="card"&gt;
+  &lt;div class="card-content"&gt;
+    &lt;p class="title"&gt;Název&lt;/p&gt;
+    &lt;p&gt;Obsah karty&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+                        <div class="mt-4">
+                            <p class="has-text-grey mb-2">Výsledek:</p>
+                            <div class="card">
+                                <div class="card-content p-3">
+                                    <p class="title is-6">Název</p>
+                                    <p class="is-size-7">Obsah karty</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <span class="slide-number has-text-dark">4 / 8</span>
+        </div>
+    </section>
+
+    <!-- ========================================
+         SLIDE 5: MODIFIKÁTORY A HELPERS
+    ======================================== -->
+    <section class="slide slide-accent" id="slide-5">
+        <div class="container">
+            <h2 class="title is-1 has-text-white-strong mb-6">
+                <i class="fas fa-magic"></i> Systém modifikátorů
+            </h2>
+            
+            <div class="columns">
+                <div class="column is-6">
+                    <div class="example-card" style="background: rgba(0,0,0,0.2);">
+                        <h3 class="title is-3 has-text-white">Prefix <code class="code-inline">is-</code></h3>
+                        <p class="text-large has-text-white mb-4">Pro stavy a velikosti:</p>
+                        <ul class="list-large has-text-white">
+                            <li><code class="code-inline">is-primary</code> - primární barva</li>
+                            <li><code class="code-inline">is-large</code> - velká velikost</li>
+                            <li><code class="code-inline">is-loading</code> - načítání</li>
+                            <li><code class="code-inline">is-active</code> - aktivní stav</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="column is-6">
+                    <div class="example-card" style="background: rgba(0,0,0,0.2);">
+                        <h3 class="title is-3 has-text-white">Prefix <code class="code-inline">has-</code></h3>
+                        <p class="text-large has-text-white mb-4">Pro vlastnosti:</p>
+                        <ul class="list-large has-text-white">
+                            <li><code class="code-inline">has-text-centered</code></li>
+                            <li><code class="code-inline">has-background-dark</code></li>
+                            <li><code class="code-inline">has-text-weight-bold</code></li>
+                            <li><code class="code-inline">has-shadow</code></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="has-text-centered mt-5">
+                <p class="title is-4 has-text-white">
+                    <i class="fas fa-lightbulb"></i> Třídy jsou snadno zapamatovatelné a logické!
+                </p>
+            </div>
+            <span class="slide-number has-text-white">5 / 8</span>
+        </div>
+    </section>
+
+    <!-- ========================================
+         SLIDE 6: KDY POUŽÍT BULMU
+    ======================================== -->
+    <section class="slide slide-light" id="slide-6">
+        <div class="container">
+            <h2 class="title is-1 has-text-dark mb-6">
+                <i class="fas fa-check-circle has-text-success"></i> Kdy použít Bulmu?
+            </h2>
+            
+            <div class="columns">
+                <div class="column is-6">
+                    <div class="notification is-success is-light">
+                        <h3 class="title is-4 has-text-success">
+                            <i class="fas fa-thumbs-up"></i> Ideální pro:
+                        </h3>
+                        <ul class="list-large">
+                            <li><strong>Rychlé prototypy</strong> - rychlý start bez konfigurace</li>
+                            <li><strong>Menší až střední projekty</strong> - blogy, portfolia, landing pages</li>
+                            <li><strong>Projekty bez JS frameworku</strong> - čisté HTML/CSS</li>
+                            <li><strong>Začátečníky</strong> - snadná syntaxe</li>
+                            <li><strong>Responzivní weby</strong> - vestavěný mobilní grid</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="column is-6">
+                    <div class="notification is-info is-light">
+                        <h3 class="title is-4 has-text-info">
+                            <i class="fas fa-star"></i> Výhody:
+                        </h3>
+                        <ul class="list-large">
+                            <li><strong>Žádný JavaScript</strong> - čistě CSS</li>
+                            <li><strong>Modulární</strong> - import jen potřebných částí</li>
+                            <li><strong>Dobrá dokumentace</strong></li>
+                            <li><strong>Snadná customizace</strong> přes SASS proměnné</li>
+                            <li><strong>Malá velikost</strong> (~200KB)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <span class="slide-number has-text-dark">6 / 8</span>
+        </div>
+    </section>
+
+    <!-- ========================================
+         SLIDE 7: NEVÝHODY A OMEZENÍ
+    ======================================== -->
+    <section class="slide slide-dark" id="slide-7">
+        <div class="container">
+            <h2 class="title is-1 has-text-white-strong mb-6">
+                <i class="fas fa-exclamation-triangle has-text-warning"></i> Nevýhody a omezení
+            </h2>
+            
+            <div class="columns">
+                <div class="column is-6">
+                    <div class="example-card">
+                        <h3 class="title is-4 has-text-warning">
+                            <i class="fas fa-times-circle"></i> Omezení
+                        </h3>
+                        <ul class="list-large has-text-white">
+                            <li><strong>Žádné JS komponenty</strong> - modály, dropdowny vyžadují vlastní JS</li>
+                            <li><strong>Menší komunita</strong> než Bootstrap nebo Tailwind</li>
+                            <li><strong>Méně utility tříd</strong> než Tailwind CSS</li>
+                            <li><strong>Omezené animace</strong> - nejsou součástí</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="column is-6">
+                    <div class="example-card">
+                        <h3 class="title is-4 has-text-danger">
+                            <i class="fas fa-ban"></i> Kdy nepoužívat
+                        </h3>
+                        <ul class="list-large has-text-white">
+                            <li>Velké enterprise aplikace</li>
+                            <li>Projekty vyžadující hodně interaktivity</li>
+                            <li>Když potřebujete maximální kontrolu nad styly</li>
+                            <li>Projekty s unikátním designem</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="notification is-warning mt-5">
+                <p class="text-large has-text-dark">
+                    <i class="fas fa-info-circle"></i> <strong>Srovnání:</strong> 
+                    Bootstrap má více funkcí, Tailwind více flexibility, ale Bulma je jednodušší na naučení.
+                </p>
+            </div>
+            <span class="slide-number has-text-grey-light">7 / 8</span>
+        </div>
+    </section>
+
+    <!-- ========================================
+         SLIDE 8: DOKUMENTACE
+    ======================================== -->
+    <section class="slide slide-light" id="slide-8">
+        <div class="container">
+            <h2 class="title is-1 has-text-dark mb-6">
+                <i class="fas fa-book has-text-primary"></i> Dokumentace Bulma
+            </h2>
+            
+            <div class="columns">
+                <div class="column is-8">
+                    <div class="box" style="border: 3px solid #00d1b2;">
+                        <h3 class="title is-3 has-text-primary">
+                            <i class="fas fa-globe"></i> bulma.io/documentation
+                        </h3>
+                        
+                        <div class="content text-large">
+                            <p><strong>Struktura dokumentace:</strong></p>
+                            <ul>
+                                <li><strong>Overview</strong> - základy, instalace, responzivita</li>
+                                <li><strong>Columns</strong> - grid systém</li>
+                                <li><strong>Layout</strong> - Container, Hero, Section, Footer</li>
+                                <li><strong>Form</strong> - inputy, selecty, checkboxy</li>
+                                <li><strong>Elements</strong> - Button, Tag, Title, Table...</li>
+                                <li><strong>Components</strong> - Card, Modal, Navbar, Menu...</li>
+                                <li><strong>Helpers</strong> - utility třídy</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="column is-4">
+                    <div class="notification is-primary">
+                        <h4 class="title is-5 has-text-white">
+                            <i class="fas fa-check"></i> Dokumentace obsahuje:
+                        </h4>
+                        <ul class="has-text-white">
+                            <li>Živé příklady</li>
+                            <li>Kopírovatelný kód</li>
+                            <li>Varianty komponent</li>
+                            <li>Responzivní příklady</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="notification is-info mt-4">
+                        <h4 class="title is-5 has-text-white">
+                            <i class="fas fa-link"></i> Demo stránka:
+                        </h4>
+                        <p class="has-text-white">
+                            <a href="demo.html" class="has-text-white" style="text-decoration: underline;" target="_blank">
+                                <strong>Otevřít demo.html</strong>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="has-text-centered mt-5">
+                <h3 class="title is-2 has-text-primary">Děkujeme za pozornost!</h3>
+                <p class="subtitle is-4 has-text-grey">
+                    <i class="fas fa-question-circle"></i> Máte otázky?
+                </p>
+            </div>
+            <span class="slide-number has-text-dark">8 / 8</span>
+        </div>
+    </section>
+
+    <!-- ========================================
+         NAVIGACE MEZI SLIDY
+    ======================================== -->
+    <nav class="slide-nav" id="slideNav">
+        <!-- Tlačítko pro skrytí -->
+        <button class="button is-small is-dark mr-3" id="hideNavBtn" title="Skrýt navigaci (H)">
+            <span class="icon">
+                <i class="fas fa-eye-slash"></i>
+            </span>
+        </button>
+        
+        <!-- Šipka doleva -->
+        <button class="button is-primary is-medium mr-3" id="prevSlide" title="Předchozí slide (←)">
+            <span class="icon">
+                <i class="fas fa-arrow-left"></i>
+            </span>
+        </button>
+        
+        <!-- Čísla slidů -->
+        <div class="buttons has-addons">
+            <a href="#slide-1" class="button is-dark slide-btn" data-slide="1">1</a>
+            <a href="#slide-2" class="button is-dark slide-btn" data-slide="2">2</a>
+            <a href="#slide-3" class="button is-dark slide-btn" data-slide="3">3</a>
+            <a href="#slide-4" class="button is-dark slide-btn" data-slide="4">4</a>
+            <a href="#slide-5" class="button is-dark slide-btn" data-slide="5">5</a>
+            <a href="#slide-6" class="button is-dark slide-btn" data-slide="6">6</a>
+            <a href="#slide-7" class="button is-dark slide-btn" data-slide="7">7</a>
+            <a href="#slide-8" class="button is-dark slide-btn" data-slide="8">8</a>
+        </div>
+        
+        <!-- Šipka doprava -->
+        <button class="button is-primary is-medium ml-3" id="nextSlide" title="Další slide (→)">
+            <span class="icon">
+                <i class="fas fa-arrow-right"></i>
+            </span>
+        </button>
+    </nav>
+    
+    <!-- Tlačítko pro zobrazení navigace (viditelné když je nav skrytá) -->
+    <button class="button is-primary show-nav-btn is-hidden" id="showNavBtn" title="Zobrazit navigaci (H)">
+        <span class="icon">
+            <i class="fas fa-eye"></i>
+        </span>
+    </button>
+    
+    <!-- Nápověda pro ovládání -->
+    <div class="keyboard-hint" id="keyboardHint">
+        <span class="icon"><i class="fas fa-keyboard"></i></span>
+        Šipky ← → navigace | H skrýt/zobrazit panel
+    </div>
+
+    <!-- ========================================
+         JAVASCRIPT PRO NAVIGACI ŠIPKAMI
+    ======================================== -->
+    <script>
+        // Celkový počet slidů
+        const totalSlides = 8;
+        
+        // Aktuální slide (začínáme na 1)
+        let currentSlide = 1;
+        
+        // Funkce pro přechod na konkrétní slide
+        function goToSlide(slideNumber) {
+            // Kontrola hranic
+            if (slideNumber < 1) slideNumber = 1;
+            if (slideNumber > totalSlides) slideNumber = totalSlides;
+            
+            currentSlide = slideNumber;
+            
+            // Plynulý scroll na slide
+            const slideElement = document.getElementById('slide-' + slideNumber);
+            if (slideElement) {
+                slideElement.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            // Aktualizace aktivního tlačítka v navigaci
+            updateActiveButton();
+        }
+        
+        // Funkce pro další slide
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                goToSlide(currentSlide + 1);
+            }
+        }
+        
+        // Funkce pro předchozí slide
+        function prevSlide() {
+            if (currentSlide > 1) {
+                goToSlide(currentSlide - 1);
+            }
+        }
+        
+        // Aktualizace aktivního tlačítka
+        function updateActiveButton() {
+            const buttons = document.querySelectorAll('.slide-btn');
+            buttons.forEach((btn, index) => {
+                if (index + 1 === currentSlide) {
+                    btn.classList.remove('is-dark');
+                    btn.classList.add('is-primary');
+                } else {
+                    btn.classList.remove('is-primary');
+                    btn.classList.add('is-dark');
+                }
+            });
+        }
+        
+        // Event listener pro klávesnici
+        document.addEventListener('keydown', function(event) {
+            // Šipka doprava nebo mezerník nebo PageDown
+            if (event.key === 'ArrowRight' || event.key === ' ' || event.key === 'PageDown') {
+                event.preventDefault();
+                nextSlide();
+            }
+            // Šipka doleva nebo PageUp
+            else if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
+                event.preventDefault();
+                prevSlide();
+            }
+            // Home - první slide
+            else if (event.key === 'Home') {
+                event.preventDefault();
+                goToSlide(1);
+            }
+            // End - poslední slide
+            else if (event.key === 'End') {
+                event.preventDefault();
+                goToSlide(totalSlides);
+            }
+        });
+        
+        // Event listenery pro tlačítka šipek
+        document.getElementById('prevSlide').addEventListener('click', prevSlide);
+        document.getElementById('nextSlide').addEventListener('click', nextSlide);
+        
+        // Event listenery pro číselná tlačítka
+        document.querySelectorAll('.slide-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const slideNum = parseInt(this.getAttribute('data-slide'));
+                goToSlide(slideNum);
+            });
+        });
+        
+        // Detekce aktuálního slidu při scrollování
+        window.addEventListener('scroll', function() {
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach((slide, index) => {
+                const rect = slide.getBoundingClientRect();
+                // Pokud je slide viditelný (alespoň polovina)
+                if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
+                    currentSlide = index + 1;
+                    updateActiveButton();
+                }
+            });
+        });
+        
+        // ========================================
+        // SKRÝVÁNÍ/ZOBRAZOVÁNÍ NAVIGACE
+        // ========================================
+        
+        const slideNav = document.getElementById('slideNav');
+        const keyboardHint = document.getElementById('keyboardHint');
+        const showNavBtn = document.getElementById('showNavBtn');
+        const hideNavBtn = document.getElementById('hideNavBtn');
+        
+        let isNavHidden = false;
+        
+        // Funkce pro přepnutí viditelnosti navigace
+        function toggleNavigation() {
+            isNavHidden = !isNavHidden;
+            
+            if (isNavHidden) {
+                slideNav.classList.add('is-hidden');
+                keyboardHint.classList.add('is-hidden');
+                showNavBtn.classList.remove('is-hidden');
+            } else {
+                slideNav.classList.remove('is-hidden');
+                keyboardHint.classList.remove('is-hidden');
+                showNavBtn.classList.add('is-hidden');
+            }
+        }
+        
+        // Event listener pro klávesu H
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'h' || event.key === 'H') {
+                toggleNavigation();
+            }
+        });
+        
+        // Event listenery pro tlačítka
+        hideNavBtn.addEventListener('click', toggleNavigation);
+        showNavBtn.addEventListener('click', toggleNavigation);
+        
+        // Inicializace - označení prvního slidu jako aktivního
+        updateActiveButton();
+    </script>
+
+</body>
+</html>

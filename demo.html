@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo - Bulma CSS Framework</title>
+    
+    <!-- ========================================
+         BULMA CSS FRAMEWORK
+         Načtení přes CDN (Content Delivery Network)
+         Verze: 1.0.2
+    ======================================== -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+    
+    <!-- ========================================
+         FONT AWESOME
+         Pro ikony v navigaci a tlačítkách
+    ======================================== -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- ========================================
+         VLASTNÍ STYLY
+         Minimální úpravy pro lepší vzhled dema
+    ======================================== -->
+    <style>
+        /* Plynulý scroll pro kotvy */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Zvýraznění vlastních úprav vs. Bulma */
+        .custom-style {
+            /* Toto je ukázka vlastního stylu */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========================================
+         HEADER / NAVBAR
+         Bulma komponenta: navbar
+         Třídy: navbar, navbar-brand, navbar-menu, navbar-item
+         
+         Responzivní: automaticky se skryje do burgeru na mobilu
+    ======================================== -->
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+        <div class="container">
+            
+            <!-- Logo a burger menu (pro mobil) -->
+            <div class="navbar-brand">
+                <!-- Název webu jako odkaz -->
+                <a class="navbar-item" href="#">
+                    <i class="fas fa-leaf mr-2"></i>
+                    <strong>EcoShop</strong>
+                </a>
+                
+                <!-- Burger tlačítko pro mobilní menu -->
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="mainNavbar">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+            
+            <!-- Hlavní menu odkazy -->
+            <div id="mainNavbar" class="navbar-menu">
+                <!-- Levá část menu -->
+                <div class="navbar-start">
+                    <a class="navbar-item is-active" href="#">
+                        <i class="fas fa-home mr-1"></i> Domů
+                    </a>
+                    <a class="navbar-item" href="#produkty">
+                        <i class="fas fa-shopping-bag mr-1"></i> Produkty
+                    </a>
+                    <a class="navbar-item" href="#kontakt">
+                        <i class="fas fa-envelope mr-1"></i> Kontakt
+                    </a>
+                </div>
+                
+                <!-- Pravá část menu -->
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <a class="button is-primary">
+                                <i class="fas fa-shopping-cart mr-1"></i> Košík
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========================================
+         HERO SEKCE
+         Bulma komponenta: hero
+         Třídy: hero, hero-body, is-medium (velikost)
+         
+         Hero je velká sekce pro hlavní obsah stránky
+    ======================================== -->
+    <section class="hero is-primary is-medium">
+        <!-- Tělo hero sekce -->
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <!-- Hlavní nadpis - title je Bulma třída pro h1 -->
+                <h1 class="title is-1">
+                    Ekologické produkty pro váš domov
+                </h1>
+                
+                <!-- Podnadpis - subtitle je Bulma třída pro vedlejší text -->
+                <p class="subtitle is-4 mt-4">
+                    Objevte naši kolekci udržitelných a ekologicky šetrných produktů. 
+                    Společně měníme svět k lepšímu.
+                </p>
+                
+                <!-- Tlačítka - buttons je wrapper, button je komponenta -->
+                <div class="buttons is-centered mt-5">
+                    <!-- Primární tlačítko - invertované barvy pro kontrast -->
+                    <a href="#produkty" class="button is-success is-large">
+                        <span class="icon">
+                            <i class="fas fa-shopping-bag"></i>
+                        </span>
+                        <span>Prohlédnout produkty</span>
+                    </a>
+                    
+                    <!-- Sekundární tlačítko - outlined verze -->
+                    <a href="#kontakt" class="button is-light is-large is-outlined">
+                        <span class="icon">
+                            <i class="fas fa-info-circle"></i>
+                        </span>
+                        <span>Více informací</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+         SEKCE S KARTAMI (PRODUKTY)
+         Bulma komponenty: section, card, columns
+         
+         Columns systém:
+         - columns = kontejner pro sloupce
+         - column = jednotlivý sloupec
+         - is-one-third = 33% šířky na desktopu
+         
+         Na mobilu jsou sloupce automaticky pod sebou!
+    ======================================== -->
+    <section class="section" id="produkty">
+        <div class="container">
+            <!-- Nadpis sekce -->
+            <h2 class="title is-2 has-text-centered mb-6">
+                <i class="fas fa-star has-text-warning"></i> 
+                Naše nejoblíbenější produkty
+            </h2>
+            
+            <!-- Grid systém - 3 sloupce na desktopu, 1 na mobilu -->
+            <div class="columns is-multiline">
+                
+                <!-- KARTA 1 -->
+                <div class="column is-one-third">
+                    <!-- Card komponenta -->
+                    <div class="card">
+                        <!-- Obrázek karty -->
+                        <div class="card-image">
+                            <figure class="image is-4by3">
+                                <img src="https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400" 
+                                     alt="Bambusová lahev">
+                            </figure>
+                        </div>
+                        
+                        <!-- Obsah karty -->
+                        <div class="card-content">
+                            <p class="title is-4">Bambusová lahev</p>
+                            <p class="subtitle is-6 has-text-grey">
+                                Ekologická láhev na vodu
+                            </p>
+                            <div class="content">
+                                Udržitelná bambusová láhev s nerezovým vnitřkem. 
+                                Udrží nápoje studené 24 hodin.
+                            </div>
+                            <!-- Tag pro cenu -->
+                            <span class="tag is-success is-medium">299 Kč</span>
+                        </div>
+                        
+                        <!-- Patička karty s tlačítky -->
+                        <footer class="card-footer">
+                            <a href="#" class="card-footer-item has-text-primary">
+                                <i class="fas fa-cart-plus mr-1"></i> Do košíku
+                            </a>
+                            <a href="#" class="card-footer-item">
+                                <i class="fas fa-heart mr-1"></i> Oblíbené
+                            </a>
+                        </footer>
+                    </div>
+                </div>
+                
+                <!-- KARTA 2 -->
+                <div class="column is-one-third">
+                    <div class="card">
+                        <div class="card-image">
+                            <figure class="image is-4by3">
+                                <img src="https://images.unsplash.com/photo-1607006483224-e5cbdbbcef5e?w=400" 
+                                     alt="Bavlněná taška">
+                            </figure>
+                        </div>
+                        <div class="card-content">
+                            <p class="title is-4">Bavlněná taška</p>
+                            <p class="subtitle is-6 has-text-grey">
+                                Znovupoužitelná nákupní taška
+                            </p>
+                            <div class="content">
+                                100% organická bavlna. Ideální náhrada za plastové tašky. 
+                                Vydrží zatížení až 15 kg.
+                            </div>
+                            <span class="tag is-success is-medium">149 Kč</span>
+                        </div>
+                        <footer class="card-footer">
+                            <a href="#" class="card-footer-item has-text-primary">
+                                <i class="fas fa-cart-plus mr-1"></i> Do košíku
+                            </a>
+                            <a href="#" class="card-footer-item">
+                                <i class="fas fa-heart mr-1"></i> Oblíbené
+                            </a>
+                        </footer>
+                    </div>
+                </div>
+                
+                <!-- KARTA 3 -->
+                <div class="column is-one-third">
+                    <div class="card">
+                        <div class="card-image">
+                            <figure class="image is-4by3">
+                                <img src="https://images.unsplash.com/photo-1570051008600-b34baa49e751?w=400" 
+                                     alt="Bambusový kartáček">
+                            </figure>
+                        </div>
+                        <div class="card-content">
+                            <p class="title is-4">Bambusový kartáček</p>
+                            <p class="subtitle is-6 has-text-grey">
+                                Ekologický zubní kartáček
+                            </p>
+                            <div class="content">
+                                Biologicky rozložitelný bambusový kartáček. 
+                                Sada 4 kusů v recyklovatelném balení.
+                            </div>
+                            <span class="tag is-success is-medium">199 Kč</span>
+                        </div>
+                        <footer class="card-footer">
+                            <a href="#" class="card-footer-item has-text-primary">
+                                <i class="fas fa-cart-plus mr-1"></i> Do košíku
+                            </a>
+                            <a href="#" class="card-footer-item">
+                                <i class="fas fa-heart mr-1"></i> Oblíbené
+                            </a>
+                        </footer>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+         FORMULÁŘ (KONTAKT)
+         Bulma komponenty: field, label, input, control, button
+         
+         Struktura formuláře v Bulma:
+         - field = wrapper pro label + input
+         - label = popisek
+         - control = wrapper pro input/select/textarea
+         - input = vstupní pole
+    ======================================== -->
+    <section class="section has-background-light" id="kontakt">
+        <div class="container">
+            <!-- Omezení šířky formuláře -->
+            <div class="columns is-centered">
+                <div class="column is-half">
+                    
+                    <!-- Nadpis formuláře -->
+                    <h2 class="title is-2 has-text-centered">
+                        <i class="fas fa-paper-plane has-text-primary"></i> 
+                        Přihlaste se k odběru
+                    </h2>
+                    <p class="subtitle has-text-centered has-text-grey">
+                        Získejte slevu 10% na první nákup
+                    </p>
+                    
+                    <!-- Box kolem formuláře -->
+                    <div class="box">
+                        <form>
+                            <!-- Pole pro e-mail -->
+                            <div class="field">
+                                <!-- Label - popisek pole -->
+                                <label class="label" for="email">
+                                    <i class="fas fa-envelope has-text-primary"></i> 
+                                    E-mailová adresa
+                                </label>
+                                
+                                <!-- Control wrapper s ikonou -->
+                                <div class="control has-icons-left has-icons-right">
+                                    <!-- Input pole typu email -->
+                                    <input 
+                                        class="input is-medium" 
+                                        type="email" 
+                                        id="email"
+                                        name="email"
+                                        placeholder="vas@email.cz"
+                                        required>
+                                    
+                                    <!-- Ikona vlevo -->
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-envelope"></i>
+                                    </span>
+                                </div>
+                                
+                                <!-- Pomocný text pod polem -->
+                                <p class="help">
+                                    Vaše e-mailová adresa nebude nikdy sdílena s třetími stranami.
+                                </p>
+                            </div>
+                            
+                            <!-- Checkbox pro souhlas -->
+                            <div class="field">
+                                <div class="control">
+                                    <label class="checkbox">
+                                        <input type="checkbox" required>
+                                        Souhlasím se zpracováním osobních údajů
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <!-- Tlačítko odeslat -->
+                            <div class="field">
+                                <div class="control">
+                                    <button type="submit" class="button is-primary is-fullwidth is-medium">
+                                        <span class="icon">
+                                            <i class="fas fa-paper-plane"></i>
+                                        </span>
+                                        <span>Odeslat</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+         FOOTER
+         Bulma komponenta: footer
+         
+         Footer je jednoduchá komponenta pro patičku stránky
+    ======================================== -->
+    <footer class="footer has-background-dark has-text-white-ter">
+        <div class="container">
+            <div class="columns">
+                
+                <!-- O nás -->
+                <div class="column is-4">
+                    <h3 class="title is-5 has-text-white">
+                        <i class="fas fa-leaf has-text-primary"></i> EcoShop
+                    </h3>
+                    <p>
+                        Jsme e-shop zaměřený na ekologické a udržitelné produkty. 
+                        Věříme, že malé změny mohou mít velký dopad.
+                    </p>
+                </div>
+                
+                <!-- Rychlé odkazy -->
+                <div class="column is-4">
+                    <h3 class="title is-5 has-text-white">Rychlé odkazy</h3>
+                    <ul>
+                        <li><a href="#" class="has-text-grey-lighter">O nás</a></li>
+                        <li><a href="#produkty" class="has-text-grey-lighter">Produkty</a></li>
+                        <li><a href="#kontakt" class="has-text-grey-lighter">Kontakt</a></li>
+                        <li><a href="#" class="has-text-grey-lighter">Obchodní podmínky</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Sociální sítě -->
+                <div class="column is-4">
+                    <h3 class="title is-5 has-text-white">Sledujte nás</h3>
+                    <div class="buttons">
+                        <a class="button is-primary is-outlined">
+                            <span class="icon"><i class="fab fa-facebook-f"></i></span>
+                        </a>
+                        <a class="button is-info is-outlined">
+                            <span class="icon"><i class="fab fa-twitter"></i></span>
+                        </a>
+                        <a class="button is-danger is-outlined">
+                            <span class="icon"><i class="fab fa-instagram"></i></span>
+                        </a>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <!-- Copyright -->
+            <div class="content has-text-centered mt-5 pt-5" style="border-top: 1px solid #444;">
+                <p class="has-text-grey-light">
+                    &copy; 2025 EcoShop. Vytvořeno s 
+                    <i class="fas fa-heart has-text-danger"></i> 
+                    pomocí <strong class="has-text-primary">Bulma CSS</strong>
+                </p>
+                <p class="is-size-7 has-text-grey">
+                    <a href="prezentace.html" class="has-text-grey-light">
+                        <i class="fas fa-arrow-left"></i> Zpět na prezentaci
+                    </a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========================================
+         JAVASCRIPT PRO BURGER MENU
+         Bulma neposkytuje JS, takže musíme přidat vlastní
+         pro funkčnost mobilního menu
+    ======================================== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Získání všech burger elementů
+            const $navbarBurgers = Array.prototype.slice.call(
+                document.querySelectorAll('.navbar-burger'), 0
+            );
+
+            // Přidání click event listeneru na každý burger
+            $navbarBurgers.forEach(el => {
+                el.addEventListener('click', () => {
+                    // Získání cíle z data-target atributu
+                    const target = el.dataset.target;
+                    const $target = document.getElementById(target);
+
+                    // Toggle třídy is-active na burger i menu
+                    el.classList.toggle('is-active');
+                    $target.classList.toggle('is-active');
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
